@@ -242,7 +242,7 @@ export function createScene(container, language) {
     shadow.rotation.x = -Math.PI / 2;
   };
   const shinchan = characterSprite('./assets/shinchan-3d.png', -.45, .08, 5.02, 1.68, 2.28);
-  const shiro = characterSprite('./assets/shiro-3d.png', 2.82, 1.18, 5.18, 1.42, .96);
+  const shiro = characterSprite('./assets/shiro-3d.png', .38, 1.18, 5.18, 1.42, .96);
   characterShadow(-.45, 5.05, 1.1, .38);
 
   // Wet ground details catch the cool rainy light.
