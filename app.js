@@ -227,7 +227,7 @@ async function render() {
   });
   if(!isEntrance&&!isRoom)return;
   try {
-    const module=await import(isRoom?'./room.js?v=12':'./scene.js?v=10');
+    const module=await import(isRoom?'./room.js?v=12':'./scene.js?v=11');
     if(current!==renderId)return;
     disposeScene=isRoom?module.createRoom(document.querySelector('#room-scene'),language):module.createScene(document.querySelector('#scene'), language);
     if(isEntrance)document.querySelector('#door-label').onclick=()=>document.querySelector('#enter-house').click();
