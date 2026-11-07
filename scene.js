@@ -221,7 +221,7 @@ export function createScene(container, language) {
       map: texture,
       transparent: true,
       alphaTest: .035,
-      depthWrite: false,
+      depthWrite: true,
       toneMapped: false
     });
     materials.push(material);
@@ -242,9 +242,9 @@ export function createScene(container, language) {
     shadow.rotation.x = -Math.PI / 2;
   };
   const shinchan = characterSprite('./assets/shinchan-3d.png', -.45, .08, 5.02, 1.68, 2.28);
-  const shiro = characterSprite('./assets/shiro-3d.png', 3.55, .06, 5.02, 1.42, .96);
+  const shiro = characterSprite('./assets/shiro-3d.png', 4.65, .06, 5.08, 1.55, 1.05);
   characterShadow(-.45, 5.05, 1.1, .38);
-  characterShadow(3.55, 5.05, .9, .3);
+  characterShadow(4.65, 5.1, .95, .32);
 
   // Wet ground details catch the cool rainy light.
   const puddleMaterial = mat(0x9fc5d0, .16, .05, { transparent: true, opacity: .27, clearcoat: 1, clearcoatRoughness: .12, depthWrite: false });
