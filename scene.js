@@ -4,7 +4,7 @@ import { OrbitControls } from './vendor/OrbitControls.js';
 export function createScene(container, language) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xa9dcf5, 22, 44);
+  scene.fog = new THREE.Fog(0x879aa7, 18, 39);
   const camera = new THREE.PerspectiveCamera(29, 1, .1, 90);
   camera.position.set(11.8, 9.4, 15.6);
 
@@ -37,7 +37,7 @@ export function createScene(container, language) {
   const world = new THREE.Group();
   world.rotation.y = -.08;
   scene.add(world);
-  const geometries = [], materials = [], interactive = [];
+  const geometries = [], materials = [], textures = [], interactive = [];
   const mat = (color, roughness = .76, metalness = 0, options = {}) => {
     const value = options.transparent || options.transmission
       ? new THREE.MeshPhysicalMaterial({ color, roughness, metalness, ...options })
@@ -82,8 +82,8 @@ export function createScene(container, language) {
     return object;
   };
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x7daf62, 1.45));
-  const sun = new THREE.DirectionalLight(0xfff1c9, 1.9);
+  scene.add(new THREE.HemisphereLight(0xdcecff, 0x526a58, 1.05));
+  const sun = new THREE.DirectionalLight(0xe6eef3, 1.35);
   sun.position.set(-7, 14, 10);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
@@ -91,7 +91,7 @@ export function createScene(container, language) {
   sun.shadow.camera.top = 12; sun.shadow.camera.bottom = -12;
   sun.shadow.normalBias = .035;
   scene.add(sun);
-  const rim = new THREE.DirectionalLight(0xbad9ff, .28);
+  const rim = new THREE.DirectionalLight(0xbad9ff, .45);
   rim.position.set(9, 7, -9);
   scene.add(rim);
 
@@ -211,6 +211,82 @@ export function createScene(container, language) {
   planter(-2.55, 3.02, 3.02);
   planter(-1.55, 3.02, 3.02);
 
+  // High-fidelity 3D character renders placed inside the real Three.js world.
+  const textureLoader = new THREE.TextureLoader();
+  const characterSprite = (source, x, y, z, width, height) => {
+    const texture = textureLoader.load(source);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    textures.push(texture);
+    const material = new THREE.SpriteMaterial({
+      map: texture,
+      transparent: true,
+      alphaTest: .035,
+      depthWrite: false,
+      toneMapped: false
+    });
+    materials.push(material);
+    const sprite = new THREE.Sprite(material);
+    sprite.position.set(x, y, z);
+    sprite.scale.set(width, height, 1);
+    sprite.center.set(.5, 0);
+    sprite.renderOrder = 4;
+    world.add(sprite);
+    return sprite;
+  };
+  const characterShadow = (x, z, sx, sz) => {
+    const material = new THREE.MeshBasicMaterial({ color: 0x26363d, transparent: true, opacity: .24, depthWrite: false });
+    materials.push(material);
+    const shadow = mesh(new THREE.CircleGeometry(.65, 32), material);
+    shadow.position.set(x, .045, z);
+    shadow.scale.set(sx, sz, 1);
+    shadow.rotation.x = -Math.PI / 2;
+  };
+  const shinchan = characterSprite('./assets/shinchan-3d.png', -.45, .08, 5.02, 1.68, 2.28);
+  const shiro = characterSprite('./assets/shiro-3d.png', 3.55, .06, 5.02, 1.42, .96);
+  characterShadow(-.45, 5.05, 1.1, .38);
+  characterShadow(3.55, 5.05, .9, .3);
+
+  // Wet ground details catch the cool rainy light.
+  const puddleMaterial = mat(0x9fc5d0, .16, .05, { transparent: true, opacity: .27, clearcoat: 1, clearcoatRoughness: .12, depthWrite: false });
+  const puddle = (x, z, sx, sz) => {
+    const object = mesh(new THREE.CircleGeometry(.75, 40), puddleMaterial);
+    object.position.set(x, .052, z);
+    object.scale.set(sx, sz, 1);
+    object.rotation.x = -Math.PI / 2;
+  };
+  puddle(-2.5, -5.62, 2.2, .42);
+  puddle(4.55, -5.75, 1.7, .34);
+  puddle(1.35, 4.3, 1.1, .3);
+
+  // Real-time rain made from lightweight line segments at varied depth and speed.
+  const rainCount = innerWidth < 650 ? 280 : 620;
+  const rainPositions = new Float32Array(rainCount * 6);
+  const rainSpeeds = new Float32Array(rainCount);
+  const resetDrop = (index, initial = false) => {
+    const offset = index * 6;
+    const x = THREE.MathUtils.randFloat(-10.5, 10.5);
+    const y = initial ? THREE.MathUtils.randFloat(.4, 13) : THREE.MathUtils.randFloat(10, 14);
+    const z = THREE.MathUtils.randFloat(-9, 10);
+    const length = THREE.MathUtils.randFloat(.32, .72);
+    rainPositions[offset] = x;
+    rainPositions[offset + 1] = y;
+    rainPositions[offset + 2] = z;
+    rainPositions[offset + 3] = x - .055;
+    rainPositions[offset + 4] = y - length;
+    rainPositions[offset + 5] = z + .025;
+    rainSpeeds[index] = THREE.MathUtils.randFloat(7.5, 13.5);
+  };
+  for (let i = 0; i < rainCount; i++) resetDrop(i, true);
+  const rainGeometry = new THREE.BufferGeometry();
+  rainGeometry.setAttribute('position', new THREE.BufferAttribute(rainPositions, 3));
+  geometries.push(rainGeometry);
+  const rainMaterial = new THREE.LineBasicMaterial({ color: 0xcfe8f4, transparent: true, opacity: .58, depthWrite: false });
+  materials.push(rainMaterial);
+  const rain = new THREE.LineSegments(rainGeometry, rainMaterial);
+  rain.frustumCulled = false;
+  rain.renderOrder = 8;
+  scene.add(rain);
+
   // Shiro's small blue-roof dog house.
   const doghouse=new THREE.Group();doghouse.position.set(-4.65,0,3.2);world.add(doghouse);
   box(1.15,.8,1,M.white,0,.42,0,doghouse);
@@ -268,8 +344,26 @@ export function createScene(container, language) {
   });
   resize.observe(container);
 
+  let previousFrame = performance.now();
   renderer.setAnimationLoop(() => {
     if (document.hidden) return;
+    const now = performance.now();
+    const delta = Math.min(.05, (now - previousFrame) / 1000);
+    previousFrame = now;
+    if (!reduced) {
+      const positions = rainGeometry.attributes.position.array;
+      for (let i = 0; i < rainCount; i++) {
+        const offset = i * 6;
+        const fall = rainSpeeds[i] * delta;
+        positions[offset + 1] -= fall;
+        positions[offset + 4] -= fall;
+        if (positions[offset + 1] < .02) resetDrop(i, false);
+      }
+      rainGeometry.attributes.position.needsUpdate = true;
+      const float = Math.sin(now * .0024);
+      shinchan.position.y = .08 + float * .025;
+      shiro.position.y = .06 - float * .018;
+    }
     if (entering) {
       const progress = Math.min(1, (performance.now() - enterStart) / 1050);
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -304,6 +398,7 @@ export function createScene(container, language) {
     controls.dispose();
     geometries.forEach(item => item.dispose());
     materials.forEach(item => item.dispose());
+    textures.forEach(item => item.dispose());
     renderer.dispose();
     renderer.domElement.remove();
   };

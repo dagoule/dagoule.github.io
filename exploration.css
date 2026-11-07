@@ -76,6 +76,20 @@
   @keyframes entry-scene-in{from{opacity:0;transform:translateY(88px) scale(.78)}to{opacity:1;transform:translateY(76px) scale(.83)}}
 }
 
+/* Rainy entrance — cool atmosphere, wet depth and readable glass controls. */
+.entrance-page .entrance-screen{background:radial-gradient(circle at 50% 38%,#b9c8cf 0,#899da8 42%,#627985 73%,#526975 100%)}
+.entrance-page .entrance-screen:before{z-index:0;background:linear-gradient(120deg,rgba(226,240,246,.26),transparent 38%),radial-gradient(circle at 78% 18%,rgba(224,239,247,.2),transparent 28%),linear-gradient(to bottom,rgba(37,56,67,.16),rgba(31,49,58,.36))}
+.entrance-page .entrance-heading h1{color:#f8faf9;text-shadow:0 2px 28px rgba(26,45,55,.24)}
+.entrance-page .entrance-heading p{color:rgba(244,248,248,.76);text-shadow:0 1px 16px rgba(27,43,52,.28)}
+.entrance-page .entrance-heading .eyebrow{color:rgba(242,249,250,.66)}
+.entrance-page .entrance-heading .eyebrow:before{background:rgba(242,249,250,.5)}
+.entrance-page .exterior-scene:before{background:radial-gradient(ellipse,rgba(21,39,48,.28),rgba(21,39,48,0) 68%)}
+.entrance-page .exterior-scene canvas{filter:saturate(.82) contrast(1.03) brightness(.95)}
+.entrance-page .scene-bottom{color:rgba(245,249,249,.72);text-shadow:0 1px 12px rgba(20,38,47,.4)}
+.entrance-page .scene-bottom button{border-color:rgba(255,255,255,.18);background:rgba(244,249,250,.68);color:#273c47;box-shadow:0 10px 30px rgba(21,39,48,.13)}
+.entrance-page .entrance-corner{color:rgba(241,248,249,.55)}
+.entrance-page .entrance-action p{color:rgba(242,248,249,.66)}
+
 /* Single animation-inspired living room: labels appear only when discovered. */
 .scene-page:not(.entrance-page) .living-room .room-hotspot{opacity:0;transform:translate(-50%,-90%);pointer-events:auto}
 .scene-page:not(.entrance-page) .living-room .room-hotspot[data-object="about"]{left:33%!important;top:30%!important}
