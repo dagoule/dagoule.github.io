@@ -361,7 +361,7 @@ export function createScene(container, language) {
       rainGeometry.attributes.position.needsUpdate = true;
       const float = Math.sin(now * .0024);
       shinchan.position.y = .08 + float * .025;
-      shiro.position.y = .06 - float * .018;
+      shiro.position.y = 1.18 - float * .018;
     }
     if (entering) {
       const progress = Math.min(1, (performance.now() - enterStart) / 1050);
