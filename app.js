@@ -158,7 +158,6 @@ function entrance() {
   return `<section class="entrance-screen">
     <div class="entrance-heading">
       <div class="entry-kicker">YIN TIANLE · PERSONAL SPACE</div>
-      <h1>${choose('欢迎来到<br><strong>印天乐的世界</strong>','Enter<br><strong>Yintianle’s World</strong>')}</h1>
       <p>${choose('推开门，认识真实的我。','Open the door. Discover the work and stories that shaped me.')}</p>
     </div>
     <div class="scene-shell exterior-scene" id="scene">
@@ -227,7 +226,7 @@ async function render() {
   });
   if(!isEntrance&&!isRoom)return;
   try {
-    const module=await import(isRoom?'./room.js?v=12':'./scene.js?v=14');
+    const module=await import(isRoom?'./room.js?v=12':'./scene.js?v=15');
     if(current!==renderId)return;
     disposeScene=isRoom?module.createRoom(document.querySelector('#room-scene'),language):module.createScene(document.querySelector('#scene'), language);
     if(isEntrance)document.querySelector('#door-label').onclick=()=>document.querySelector('#enter-house').click();

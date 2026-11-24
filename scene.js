@@ -338,7 +338,10 @@ export function createScene(container, language) {
     const width = container.clientWidth, height = container.clientHeight;
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
-    camera.zoom = width < 650 ? .72 : Math.min(1, camera.aspect / 1.32);
+    // Fit the complete property to the viewport. A fixed mobile zoom cropped the
+    // wide scene on portrait phones; aspect-based framing keeps both boundaries
+    // visible while preserving the desktop composition.
+    camera.zoom = Math.min(1, camera.aspect / 1.25);
     camera.updateProjectionMatrix();
   });
   resize.observe(container);

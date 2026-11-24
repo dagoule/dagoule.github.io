@@ -21,7 +21,7 @@
 .entry-kicker{margin-bottom:13px;color:#8c877f;font-size:9px;font-weight:700;letter-spacing:.24em}
 .entrance-page .entrance-heading h1{margin:0;color:#262724;font-family:var(--sans);font-size:clamp(32px,3.6vw,52px);font-weight:500;line-height:1.02;letter-spacing:-.052em}
 .entrance-page .entrance-heading h1 strong{font-weight:700}
-.entrance-page .entrance-heading p{margin:16px auto 0;color:#77736d;font-size:12px;letter-spacing:.01em}
+.entrance-page .entrance-heading p{margin:8px auto 0;color:#77736d;font-size:12px;letter-spacing:.01em}
 .entrance-page .exterior-scene{position:absolute;inset:0;width:100%;height:100%;margin:0;border-radius:0;background:transparent;isolation:auto}
 .entrance-page .exterior-scene:before{content:'';position:absolute;z-index:0;left:50%;bottom:4%;width:min(880px,74vw);height:25%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(87,73,58,.16),rgba(87,73,58,0) 68%);filter:blur(17px);pointer-events:none}
 .entrance-page .exterior-scene canvas{position:absolute;inset:0;z-index:1;width:100%;height:100%;filter:saturate(.86) contrast(.98);animation:entry-scene-in 1.15s .08s cubic-bezier(.2,.8,.2,1) both}
@@ -61,7 +61,7 @@
   .entrance-page .entrance-heading{top:82px;width:calc(100% - 28px)}
   .entry-kicker{font-size:7px;margin-bottom:10px}
   .entrance-page .entrance-heading h1{font-size:clamp(29px,9vw,39px);line-height:1.04}
-  .entrance-page .entrance-heading p{max-width:290px;margin-top:12px;font-size:10px}
+  .entrance-page .entrance-heading p{max-width:290px;margin-top:7px;font-size:10px}
   .entrance-page .door-label{left:59%;top:61%;font-size:8px;padding:7px 10px}
   .entrance-page .scene-bottom{left:12px;right:12px;bottom:12px;align-items:flex-end}
   .entrance-page .scene-bottom>span{width:112px;font-size:7px;line-height:1.6}
